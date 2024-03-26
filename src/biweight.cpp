@@ -53,7 +53,7 @@ Cbiweight(
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
-          #pragma omp atomic
+          #pragma omp atomic update
              hexval(j, k) += pond * input_val(i, k);
           }
         }
@@ -65,7 +65,7 @@ Cbiweight(
       for (lj = liste_j.begin(), lp = liste_pond.begin();
            lj != liste_j.end(); ++lj, ++lp) {
         for (int k = 0; k < nc; ++k) {
-          #pragma omp atomic
+          #pragma omp atomic update
           hexval(*lj, k) += (*lp) * input_val(i, k) / sumpond;
         }
       }
