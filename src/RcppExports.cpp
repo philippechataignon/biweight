@@ -27,22 +27,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// Csimple
-NumericMatrix Csimple(NumericVector grid_x, NumericMatrix val);
-RcppExport SEXP _biweight_Csimple(SEXP grid_xSEXP, SEXP valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type grid_x(grid_xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type val(valSEXP);
-    rcpp_result_gen = Rcpp::wrap(Csimple(grid_x, val));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_biweight_Cbiweight", (DL_FUNC) &_biweight_Cbiweight, 7},
-    {"_biweight_Csimple", (DL_FUNC) &_biweight_Csimple, 2},
     {NULL, NULL, 0}
 };
 

@@ -5,7 +5,3 @@ Cbiweight <- function(grid_x, grid_y, input_x, input_y, input_val, radius, ind_n
     .Call('_biweight_Cbiweight', PACKAGE = 'biweight', grid_x, grid_y, input_x, input_y, input_val, radius, ind_normalize)
 }
 
-Csimple <- function(grid_x, val) {
-    .Call('_biweight_Csimple', PACKAGE = 'biweight', grid_x, val)
-}
-
