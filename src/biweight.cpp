@@ -13,7 +13,7 @@ Cbiweight(
   NumericVector input_y,
   NumericMatrix input_val,
   double radius,
-  bool ind_normalize)
+  bool normalize)
 {
   int nb_input_pts = input_x.size();
   int nb_grid_pts = grid_x.size();
@@ -49,7 +49,7 @@ Cbiweight(
       if (d2 < radius2) {
         pond = 1 - d2 / radius2;
         pond *= pond;
-        if (ind_normalize) {
+        if (normalize) {
           ponds.push_back(std::make_tuple(j, pond));
           sumpond += pond;
         } else {
@@ -60,7 +60,7 @@ Cbiweight(
         }
       }
     }
-    if (ind_normalize && sumpond > 0) {
+    if (normalize && sumpond > 0) {
       for (auto [ j, jpond ] : ponds) {
         for (int k = 0; k < nb_var; ++k) {
           #pragma omp atomic update
