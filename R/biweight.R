@@ -7,27 +7,54 @@
 #' @param normalize : if TRUE, ensure sum of pond = 1 else no correction
 #' @param output_grid_geometry : is `geometry` present in return value ?
 #' @export
-biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry = FALSE, id = NULL)
+biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry = FALSE, var = NULL, id = NULL)
 {
   stopifnot("sf" %in% class(value), "sf" %in% class(grid))
-  varnum = names(value)[sapply(value, is.numeric)]
-  if (!is.null(id)) {
-    varnum = varnum[varnum != id]
+  if (is.null(var)) {
+    var = names(value)[sapply(value, is.numeric)]
   }
-  values = sf::st_drop_geometry(value[, varnum])
-  biw = Cbiweight(
-    sf::st_coordinates(grid)[,1],
-    sf::st_coordinates(grid)[,2],
-    sf::st_coordinates(value)[,1],
-    sf::st_coordinates(value)[,2],
+  if (!is.null(id)) {
+    var = var[var != id]
+  }
+  values = sf::st_drop_geometry(value[, var])
+  grid_coord = sf::st_coordinates(grid)
+  value_coord = sf::st_coordinates(value)
+  biw = biweight_num(
+    grid_coord[,1],
+    grid_coord[,2],
+    value_coord[,1],
+    value_coord[,2],
     as.matrix(values),
     radius = radius,
-    ind_normalize = as.integer(normalize)
+    normalize = normalize
   )
   if (!output_grid_geometry) {
     grid = sf::st_drop_geometry(grid)
   }
   ret = cbind(biw, grid)
-  names(ret) = c(varnum, names(grid))
+  names(ret) = c(var, names(grid))
   ret
+}
+
+#' Biweight raw function
+#'
+#' @param grid.x = numeric vector of x grid coordinates
+#' @param grid.y = numeric vector of y grid coordinates
+#' @param value.x = numeric vector of x value coordinates
+#' @param value.y = numeric vector of y value coordinates
+#' @param value.matrix = matrix of values
+#' @param radius : radius in same unit as x, y
+#' @param normalize : if TRUE, ensure sum of pond = 1 else no correction
+#' @export
+biweight_num <- function(grid.x, grid.y, value.x, value.y, value.matrix, radius, normalize = TRUE)
+{
+  Cbiweight(
+    grid.x,
+    grid.y,
+    value.x,
+    value.y,
+    value.matrix,
+    radius = radius,
+    ind_normalize = normalize
+  )
 }

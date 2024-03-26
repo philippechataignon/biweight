@@ -10,6 +10,7 @@ biweight(
   radius,
   normalize = TRUE,
   output_grid_geometry = FALSE,
+  var = NULL,
   id = NULL
 )
 }
