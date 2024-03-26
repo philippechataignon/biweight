@@ -24,16 +24,13 @@ Cbiweight(
   double pond;
   double radius2 = radius * radius;
 
-#pragma omp parallel
-{
-  NumericMatrix my_hexval(nr, nc);
-  #pragma omp for
+  #pragma omp parallel for schedule(static)
   for (int i = 0; i < input_x.size(); ++i) {
     double sumpond = 0;
     std::vector<int> liste_j;
     std::vector<double> liste_pond;
-    liste_j.reserve(65536);
-    liste_pond.reserve(65536);
+    liste_j.reserve(1024);
+    liste_pond.reserve(1024);
 
     for (int j = 0; j < nr; ++j) {
       if (grid_x[j] < input_x[i] - radius)
@@ -56,7 +53,8 @@ Cbiweight(
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
-            my_hexval(j, k) += pond * input_val(i, k);
+            // hexval(j, k) += pond * input_val(i, k);
+             hexval(j, k) = omp_get_thread_num();
           }
         }
       }
@@ -67,15 +65,13 @@ Cbiweight(
       for (lj = liste_j.begin(), lp = liste_pond.begin();
            lj != liste_j.end(); ++lj, ++lp) {
         for (int k = 0; k < nc; ++k) {
-          my_hexval(*lj, k) += (*lp) * input_val(i, k) / sumpond;
+          #pragma omp critical
+            {
+          hexval(*lj, k) += (*lp) * input_val(i, k) / sumpond;
+            }
         }
       }
     }
   }
-  #pragma omp critical
-  for (int j = 0; j < nr; ++j)
-    for (int k = 0; k < nc; ++k)
-      hexval(j, k) += my_hexval(j, k);
-}
   return hexval;
 }

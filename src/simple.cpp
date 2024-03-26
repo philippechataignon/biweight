@@ -6,17 +6,18 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 
-double
-Csimple(NumericVector grid_x)
+NumericMatrix
+Csimple(NumericVector grid_x, NumericMatrix val)
 {
-  double sumpond = 0;
-  #pragma omp parallel
-  {
-    #pragma omp for
-    for (int i = 0; i < grid_x.size(); ++i) {
-      ; sumpond += grid_x[i];
-      sumpond += omp_get_thread_num();
+  NumericMatrix sumpond(grid_x.size(), val.ncol());
+    #pragma omp parallel for
+    for (int i = 0; i < val.nrow(); ++i) {
+      for (int j = 0; j < grid_x.size(); ++j) {
+        for (int k = 0; k < val.ncol(); ++k) {
+          sumpond(j, k) += val(i, k);
+          sumpond(i, 0) = omp_get_thread_num();
+        }
+      }
     }
-  }
   return sumpond;
 }

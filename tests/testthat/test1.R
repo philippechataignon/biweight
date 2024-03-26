@@ -15,6 +15,7 @@ biw = Cbiweight(
   .5,
   input_val = as.matrix(100),
   radius = 1,
-  ind_normalize = F
+  ind_normalize = T
 )
 
+assertthat::are_equal(biw[1,1], 25)

@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 Cbiweight <- function(grid_x, grid_y, input_x, input_y, input_val, radius, ind_normalize) {
-    .Call(`_biweight_Cbiweight`, grid_x, grid_y, input_x, input_y, input_val, radius, ind_normalize)
+    .Call('_biweight_Cbiweight', PACKAGE = 'biweight', grid_x, grid_y, input_x, input_y, input_val, radius, ind_normalize)
 }
 
-Csimple <- function(grid_x) {
-    .Call(`_biweight_Csimple`, grid_x)
+Csimple <- function(grid_x, val) {
+    .Call('_biweight_Csimple', PACKAGE = 'biweight', grid_x, val)
 }
 
