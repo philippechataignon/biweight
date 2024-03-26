@@ -1,3 +1,3 @@
-# devtools::document(roclets = c('rd', 'collate', 'namespace'))
+devtools::document()
 devtools::install()
 devtools::test()

@@ -4,18 +4,18 @@
 \alias{biweight}
 \title{Biweight fuction}
 \usage{
-biweight(value, grid, id, radius, ind_normalize)
+biweight(value, grid, radius, ind_normalize, id = NULL)
 }
 \arguments{
 \item{value}{: sf values + points}
 
 \item{grid}{: sf points}
 
-\item{id}{: names of id variable in grid}
-
 \item{radius}{: 20000 for 20 km}
 
 \item{ind_normalize}{: if TRUE, ensure sum of pond = 1}
+
+\item{id}{: names of id variable in grid}
 }
 \description{
 Biweight fuction

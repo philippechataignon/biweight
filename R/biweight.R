@@ -6,11 +6,13 @@
 #' @param radius : 20000 for 20 km
 #' @param ind_normalize : if TRUE, ensure sum of pond = 1
 #' @export
-biweight <- function(value, grid, id, radius, ind_normalize)
+biweight <- function(value, grid, radius, ind_normalize, id = NULL)
 {
   stopifnot("sf" %in% class(value), "sf" %in% class(grid))
   varnum = names(value)[sapply(value, is.numeric)]
-  varnum = varnum[varnum != id]
+  if (!is.null(id)) {
+    varnum = varnum[varnum != id]
+  }
   values = st_drop_geometry(value[, varnum])
   biw = Cbiweight(
     st_coordinates(grid)[,1],
@@ -21,7 +23,7 @@ biweight <- function(value, grid, id, radius, ind_normalize)
     radius = radius,
     ind_normalize = as.integer(ind_normalize)
   )
-  ret = cbind(st_drop_geometry(grid[, id]), biw)
-  names(ret) = c(id, varnum)
+  ret = cbind(biw, grid)
+  names(ret) = c(varnum, names(grid))
   ret
 }
