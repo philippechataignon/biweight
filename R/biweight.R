@@ -1,4 +1,4 @@
-#' Biweight fuction
+#' Biweight function
 #'
 #' @param value : sf values + points
 #' @param grid : sf points
@@ -13,12 +13,12 @@ biweight <- function(value, grid, radius, ind_normalize, id = NULL)
   if (!is.null(id)) {
     varnum = varnum[varnum != id]
   }
-  values = st_drop_geometry(value[, varnum])
+  values = sf::st_drop_geometry(value[, varnum])
   biw = Cbiweight(
-    st_coordinates(grid)[,1],
-    st_coordinates(grid)[,2],
-    st_coordinates(value)[,1],
-    st_coordinates(value)[,2],
+    sf::st_coordinates(grid)[,1],
+    sf::st_coordinates(grid)[,2],
+    sf::st_coordinates(value)[,1],
+    sf::st_coordinates(value)[,2],
     as.matrix(values),
     radius = radius,
     ind_normalize = as.integer(ind_normalize)

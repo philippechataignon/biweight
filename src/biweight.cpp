@@ -27,9 +27,7 @@ Cbiweight(
     double d2;
     double pond;
     double sumpond = 0;
-    std::vector<int> liste_j;
-    std::vector<double> liste_pond;
-    liste_j.reserve(1024);
+    std::vector< std::tuple<int, double> > liste_pond;
     liste_pond.reserve(1024);
 
     for (int j = 0; j < nr; ++j) {
@@ -48,8 +46,7 @@ Cbiweight(
         pond = 1 - d2 / radius2;
         pond *= pond;
         if (ind_normalize) {
-          liste_j.push_back(j);
-          liste_pond.push_back(pond);
+          liste_pond.push_back(std::make_tuple(j, pond));
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
@@ -62,11 +59,10 @@ Cbiweight(
     if (ind_normalize && sumpond > 0) {
       std::vector<int>::iterator lj;
       std::vector<double>::iterator lp;
-      for (lj = liste_j.begin(), lp = liste_pond.begin();
-           lj != liste_j.end(); ++lj, ++lp) {
+      for (auto [ j, jpond ] : liste_pond) {
         for (int k = 0; k < nc; ++k) {
           #pragma omp atomic update
-          hexval(*lj, k) += (*lp) * input_val(i, k) / sumpond;
+          hexval(j, k) += jpond * input_val(i, k) / sumpond;
         }
       }
     }

@@ -4,13 +4,14 @@ Title: Compute a KDE density with biweight kernel
 Version: 0.2
 Author: Philippe Chataignon
 Maintainer: Philippe Chataignon <philippe.chataignon@insee.fr>
-Description: Apply a biweight kernel from x,y points to a regular grid
+Description: Apply a biweight kernel from x,y points to a regular grid.
 License: GPL-2
 Encoding: UTF-8
-LazyData: true
-Imports: Rcpp (>= 1.0.12)
+Imports: 
+    Rcpp,
+    sf
 LinkingTo: Rcpp
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-RoxygenNote: 7.3.1
+RoxygenNote: 7.1.2
