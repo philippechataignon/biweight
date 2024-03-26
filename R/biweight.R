@@ -4,9 +4,10 @@
 #' @param grid : sf points
 #' @param id : names of id variable in grid
 #' @param radius : 20000 for 20 km
-#' @param ind_normalize : if TRUE, ensure sum of pond = 1
+#' @param normalize : if TRUE, ensure sum of pond = 1 else no correction
+#' @param output_grid_geometry : is `geometry` present in return value ?
 #' @export
-biweight <- function(value, grid, radius, ind_normalize, id = NULL)
+biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry = FALSE, id = NULL)
 {
   stopifnot("sf" %in% class(value), "sf" %in% class(grid))
   varnum = names(value)[sapply(value, is.numeric)]
@@ -21,8 +22,11 @@ biweight <- function(value, grid, radius, ind_normalize, id = NULL)
     sf::st_coordinates(value)[,2],
     as.matrix(values),
     radius = radius,
-    ind_normalize = as.integer(ind_normalize)
+    ind_normalize = as.integer(normalize)
   )
+  if (!output_grid_geometry) {
+    grid = sf::st_drop_geometry(grid)
+  }
   ret = cbind(biw, grid)
   names(ret) = c(varnum, names(grid))
   ret

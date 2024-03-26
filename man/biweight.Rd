@@ -4,7 +4,14 @@
 \alias{biweight}
 \title{Biweight function}
 \usage{
-biweight(value, grid, radius, ind_normalize, id = NULL)
+biweight(
+  value,
+  grid,
+  radius,
+  normalize = TRUE,
+  output_grid_geometry = FALSE,
+  id = NULL
+)
 }
 \arguments{
 \item{value}{: sf values + points}
@@ -13,7 +20,9 @@ biweight(value, grid, radius, ind_normalize, id = NULL)
 
 \item{radius}{: 20000 for 20 km}
 
-\item{ind_normalize}{: if TRUE, ensure sum of pond = 1}
+\item{normalize}{: if TRUE, ensure sum of pond = 1 else no correction}
+
+\item{output_grid_geometry}{: is `geometry` present in return value ?}
 
 \item{id}{: names of id variable in grid}
 }

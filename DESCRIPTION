@@ -1,7 +1,7 @@
 Package: biweight
 Type: Package
 Title: Compute a KDE density with biweight kernel
-Version: 0.3
+Version: 0.3.1
 Author: Philippe Chataignon
 Maintainer: Philippe Chataignon <philippe.chataignon@insee.fr>
 Description: Apply a biweight kernel from x,y points to a regular grid.
@@ -14,4 +14,4 @@ LinkingTo: Rcpp
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1
