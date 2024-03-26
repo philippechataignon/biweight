@@ -20,12 +20,12 @@ Cbiweight(
 
   NumericMatrix hexval(nr, nc);
 
-  double d2;
-  double pond;
   double radius2 = radius * radius;
 
   #pragma omp parallel for schedule(static)
   for (int i = 0; i < input_x.size(); ++i) {
+    double d2;
+    double pond;
     double sumpond = 0;
     std::vector<int> liste_j;
     std::vector<double> liste_pond;
@@ -53,10 +53,8 @@ Cbiweight(
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
-          #pragma omp critical
-              {
+          #pragma omp atomic
              hexval(j, k) += pond * input_val(i, k);
-              }
           }
         }
       }
@@ -67,10 +65,8 @@ Cbiweight(
       for (lj = liste_j.begin(), lp = liste_pond.begin();
            lj != liste_j.end(); ++lj, ++lp) {
         for (int k = 0; k < nc; ++k) {
-          #pragma omp critical
-            {
+          #pragma omp atomic
           hexval(*lj, k) += (*lp) * input_val(i, k) / sumpond;
-            }
         }
       }
     }
