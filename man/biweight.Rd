@@ -2,7 +2,7 @@
 % Please edit documentation in R/biweight.R
 \name{biweight}
 \alias{biweight}
-\title{Biweight fuction}
+\title{Biweight function}
 \usage{
 biweight(value, grid, radius, ind_normalize, id = NULL)
 }
@@ -18,5 +18,5 @@ biweight(value, grid, radius, ind_normalize, id = NULL)
 \item{id}{: names of id variable in grid}
 }
 \description{
-Biweight fuction
+Biweight function
 }

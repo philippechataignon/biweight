@@ -27,39 +27,40 @@ Cbiweight(
     double d2;
     double pond;
     double sumpond = 0;
-    std::vector< std::tuple<int, double> > liste_pond;
-    liste_pond.reserve(1024);
+    std::vector< std::tuple<int, double> > ponds;
+    ponds.reserve(1024);
 
     for (int j = 0; j < nr; ++j) {
-      if (grid_x[j] < input_x[i] - radius)
+      double x = input_x[i] - grid_x[j];
+      double y = input_y[i] - grid_y[j];
+
+      if (x > radius)
         continue;
-      if (grid_x[j] > input_x[i] + radius)
+      if (y > radius)
         continue;
-      if (grid_y[j] < input_y[i] - radius)
+      if (x < -radius)
         continue;
-      if (grid_y[j] > input_y[i] + radius)
+      if (y < -radius)
         continue;
 
-      d2 = (input_x[i] - grid_x[j]) * (input_x[i] - grid_x[j]) + (input_y[i] - grid_y[j]) * (input_y[i] - grid_y[j]);
+      d2 = x * x + y * y;
 
       if (d2 < radius2) {
         pond = 1 - d2 / radius2;
         pond *= pond;
         if (ind_normalize) {
-          liste_pond.push_back(std::make_tuple(j, pond));
+          ponds.push_back(std::make_tuple(j, pond));
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
-          #pragma omp atomic update
-             hexval(j, k) += pond * input_val(i, k);
+            #pragma omp atomic update
+            hexval(j, k) += pond * input_val(i, k);
           }
         }
       }
     }
     if (ind_normalize && sumpond > 0) {
-      std::vector<int>::iterator lj;
-      std::vector<double>::iterator lp;
-      for (auto [ j, jpond ] : liste_pond) {
+      for (auto [ j, jpond ] : ponds) {
         for (int k = 0; k < nc; ++k) {
           #pragma omp atomic update
           hexval(j, k) += jpond * input_val(i, k) / sumpond;
