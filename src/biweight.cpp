@@ -53,8 +53,10 @@ Cbiweight(
           sumpond += pond;
         } else {
           for (int k = 0; k < nc; ++k) {
-            // hexval(j, k) += pond * input_val(i, k);
-             hexval(j, k) = omp_get_thread_num();
+          #pragma omp critical
+              {
+             hexval(j, k) += pond * input_val(i, k);
+              }
           }
         }
       }
