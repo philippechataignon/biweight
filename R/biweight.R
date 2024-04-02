@@ -19,6 +19,7 @@ biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry
   values = sf::st_drop_geometry(value[, var])
   grid_coord = sf::st_coordinates(grid)
   value_coord = sf::st_coordinates(value)
+  if (is.atomic(radius))
   biw = biweight_num(
     grid_coord[,1],
     grid_coord[,2],
@@ -48,7 +49,14 @@ biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry
 #' @export
 biweight_num <- function(grid.x, grid.y, value.x, value.y, value.matrix, radius, normalize = TRUE)
 {
-  Cbiweight(
+  if (length(radius) != 1 && length(radius) != length(value.x))
+    stop("`radius` must be a single value or have the same length as `value`")
+
+  if (length(radius) == 1)
+    fbiw = Cbiweight
+  else
+    fbiw = Cbiweight_radius
+  fbiw(
     grid.x,
     grid.y,
     value.x,

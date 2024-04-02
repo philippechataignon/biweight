@@ -13,14 +13,25 @@ test_that("Cbiweight OK",
   biw1 = biweight_num(
     grid$x,
     grid$y,
-    0.5,
-    0.5,
+    .5,
+    .5,
     value.matrix = as.matrix(100),
     radius = 2,
     normalize = T
   )
-  # print(biw1)
   expect_equal(biw1[1,1], 25)
+
+  biw1 = biweight_num(
+    grid$x,
+    grid$y,
+    c(0.5, 0.5),
+    c(0.5, 0.5),
+    value.matrix = as.matrix(100),
+    radius = c(2,0,1),
+    normalize = T
+  )
+  expect_equal(biw1[1,1], 25)
+
   biw2 = biweight_num(
     grid$x,
     grid$y,
