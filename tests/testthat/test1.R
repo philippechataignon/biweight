@@ -27,7 +27,7 @@ test_that("Cbiweight OK",
     c(0.5, 0.5),
     c(0.5, 0.5),
     value.matrix = as.matrix(100),
-    radius = c(2,0,1),
+    radius = c(2,1),
     normalize = T
   )
   expect_equal(biw1[1,1], 25)

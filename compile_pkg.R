@@ -1,3 +1,3 @@
-#devtools::document()
-#devtools::install()
+devtools::document()
+devtools::install()
 devtools::test()
