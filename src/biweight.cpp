@@ -25,8 +25,6 @@ Cbiweight_radius(
     double d2;
     double pond;
     double sumpond = 0;
-    double iradius = radius[i];
-    double iradius2 = iradius * iradius;
     std::vector< std::tuple<int, double> > ponds;
     ponds.reserve(1024);
 
@@ -34,19 +32,19 @@ Cbiweight_radius(
       double x = input_x[i] - grid_x[j];
       double y = input_y[i] - grid_y[j];
 
-      if (x > iradius)
+      if (x > radius[i])
         continue;
-      if (y > iradius)
+      if (y > radius[i])
         continue;
-      if (x < -iradius)
+      if (x < -radius[i])
         continue;
-      if (y < -iradius)
+      if (y < -radius[i])
         continue;
 
       d2 = x * x + y * y;
 
-      if (d2 < iradius2) {
-        pond = 1 - d2 / iradius2;
+      if (d2 < radius[i] * radius[i]) {
+        pond = 1 - d2 / (radius[i] * radius[i]);
         pond *= pond;
         if (normalize) {
           ponds.push_back(std::make_tuple(j, pond));
@@ -88,7 +86,6 @@ Cbiweight(
 
   NumericMatrix grid_val(nb_grid_pts, nb_var);
 
-  double radius2 = radius * radius;
 
   #pragma omp parallel for schedule(static)
   for (int i = 0; i < nb_input_pts; ++i) {
@@ -112,6 +109,7 @@ Cbiweight(
         continue;
 
       d2 = x * x + y * y;
+      double radius2 = radius * radius;
 
       if (d2 < radius2) {
         pond = 1 - d2 / radius2;
