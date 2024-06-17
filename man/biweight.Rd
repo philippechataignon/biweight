@@ -19,7 +19,7 @@ biweight(
 
 \item{grid}{: sf points}
 
-\item{radius}{: 20000 for 20 km}
+\item{radius}{: numeric vector of radius with length 1 or same as x and y}
 
 \item{normalize}{: if TRUE, ensure sum of pond = 1 else no correction}
 

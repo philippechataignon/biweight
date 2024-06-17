@@ -25,7 +25,7 @@ biweight_num(
 
 \item{value.matrix}{= matrix of values}
 
-\item{radius}{: radius in same unit as x, y}
+\item{radius}{: numeric vector of radius (legth 1 or same as x and y)}
 
 \item{normalize}{: if TRUE, ensure sum of pond = 1 else no correction}
 }

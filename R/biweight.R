@@ -3,7 +3,7 @@
 #' @param value : sf values + points
 #' @param grid : sf points
 #' @param id : names of id variable in grid
-#' @param radius : 20000 for 20 km
+#' @param radius : numeric vector of radius with length 1 or same as x and y
 #' @param normalize : if TRUE, ensure sum of pond = 1 else no correction
 #' @param output_grid_geometry : is `geometry` present in return value ?
 #' @export
@@ -44,7 +44,7 @@ biweight <- function(value, grid, radius, normalize = TRUE, output_grid_geometry
 #' @param value.x = numeric vector of x value coordinates
 #' @param value.y = numeric vector of y value coordinates
 #' @param value.matrix = matrix of values
-#' @param radius : radius in same unit as x, y
+#' @param radius : numeric vector of radius (legth 1 or same as x and y)
 #' @param normalize : if TRUE, ensure sum of pond = 1 else no correction
 #' @export
 biweight_num <- function(grid.x, grid.y, value.x, value.y, value.matrix, radius, normalize = TRUE)
@@ -52,11 +52,7 @@ biweight_num <- function(grid.x, grid.y, value.x, value.y, value.matrix, radius,
   if (length(radius) != 1 && length(radius) != length(value.x))
     stop("`radius` must be a single value or have the same length as `value`")
 
-  if (length(radius) == 1)
-    fbiw = Cbiweight
-  else
-    fbiw = Cbiweight_radius
-  fbiw(
+  Cbiweight(
     grid.x,
     grid.y,
     value.x,
