@@ -26,15 +26,13 @@ Cbiweight(
     double d2;
     double pond;
     double sumpond = 0;
-    double t_radius;
+    double t_radius = constant_radius ? radius[0] : radius[i];
     std::vector< std::tuple<int, double> > ponds;
     ponds.reserve(1024);
 
     for (int j = 0; j < nb_grid_pts; ++j) {
       double x = input_x[i] - grid_x[j];
       double y = input_y[i] - grid_y[j];
-
-      t_radius = constant_radius ? radius[0] : radius[i];
 
       if (x > t_radius)
         continue;
