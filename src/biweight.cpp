@@ -1,5 +1,5 @@
-#include <omp.h>
 #include <Rcpp.h>
+#include <omp.h>
 using namespace Rcpp;
 
 // [[Rcpp::plugins(openmp)]]
@@ -21,7 +21,7 @@ Cbiweight(
 
   NumericMatrix grid_val(nb_grid_pts, nb_var);
 
-  #pragma omp parallel for schedule(static)
+  #pragma omp parallel for
   for (int i = 0; i < nb_input_pts; ++i) {
     double d2;
     double pond;
@@ -44,9 +44,10 @@ Cbiweight(
         continue;
 
       d2 = x * x + y * y;
+      double t_radius2 = t_radius * t_radius;
 
-      if (d2 < t_radius * t_radius) {
-        pond = 1 - d2 / (t_radius * t_radius);
+      if (d2 < t_radius2) {
+        pond = 1 - d2 / t_radius2;
         pond *= pond;
         if (normalize) {
           ponds.push_back(std::make_tuple(j, pond));

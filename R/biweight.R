@@ -58,7 +58,7 @@ biweight_num <- function(grid.x, grid.y, value.x, value.y, value.matrix, radius,
     value.x,
     value.y,
     value.matrix,
-    radius = radius,
-    normalize = normalize
+    radius,
+    normalize
   )
 }
