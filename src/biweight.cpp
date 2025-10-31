@@ -23,8 +23,6 @@ Cbiweight(
 
   #pragma omp parallel for
   for (int i = 0; i < nb_input_pts; ++i) {
-    double d2;
-    double pond;
     double sumpond = 0;
     double t_radius = constant_radius ? radius[0] : radius[i];
     std::vector< std::tuple<int, double> > ponds;
@@ -43,7 +41,8 @@ Cbiweight(
       if (y < -t_radius)
         continue;
 
-      d2 = x * x + y * y;
+      double pond = 0;
+      double d2 = x * x + y * y;
       double t_radius2 = t_radius * t_radius;
 
       if (d2 < t_radius2) {
@@ -61,10 +60,10 @@ Cbiweight(
       }
     }
     if (normalize && sumpond > 0) {
-      for (auto [ j, jpond ] : ponds) {
+      for (auto [ j, pond ] : ponds) {
         for (int k = 0; k < nb_var; ++k) {
           #pragma omp atomic update
-          grid_val(j, k) += jpond * input_val(i, k) / sumpond;
+          grid_val(j, k) += pond * input_val(i, k) / sumpond;
         }
       }
     }
