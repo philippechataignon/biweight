@@ -9,49 +9,42 @@
 #' except 'id' variables
 #' @param id        excluded variables from 'var'
 #' @export
-biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL, id = NULL)
+biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 {
   stopifnot(is(value, "sf"), is(grid, "sf"))
   stopifnot(is.character(radius) || is.numeric(radius))
 
-  if (is.character(radius)) {
-    p_radius = value$radius
-    # remove 'radius' var from value vars
-    id = c(id, radius)
-  } else {
-    p_radius = radius
-  }
-  # if var is not specfified then keep all numeric value
+  # if var is not specfified then var = all numeric value
   if (is.null(var)) {
     var = names(value)[sapply(value, is.numeric)]
   }
-  # remove id from var
-  if (!is.null(id)) {
-    var = var[!var %in% id]
+  if (is.character(radius)) {
+    p_radius = value$radius
+    # remove 'radius' var from value vars
+    var = var[!var == radius]
+  } else {
+    p_radius = radius
   }
-
-  values = sf::st_drop_geometry(value[, var])
   biw = biweight_num(
-    sf::st_coordinates(grid),
     sf::st_coordinates(value),
-    as.matrix(values),
+    sf::st_coordinates(grid),
+    as.matrix(sf::st_drop_geometry(value[, var])),
     radius = p_radius,
     normalize = normalize
   )
-  ret = cbind(biw, grid)
-  names(ret) = c(var, names(grid))
+  ret = cbind(grid, biw)
   ret
 }
 
 #' Biweight raw function
 #'
-#' @param grid      2 cols x,y numeric matrix of grid coordinates
 #' @param input     2 cols x,y numeric matrix of value coordinates
+#' @param grid      2 cols x,y numeric matrix of grid coordinates
 #' @param value     matrix of values
 #' @param radius    numeric vector of radius (length 1 or same as x and y)
 #' @param normalize if TRUE, ensure sum of pond = 1 else no correction
 #' @export
-biweight_num <- function(grid, input, value, radius, normalize = TRUE)
+biweight_num <- function(input, grid, value, radius, normalize = TRUE)
 {
   if (length(radius) != 1 && length(radius) != nrow(input))
     stop("`radius` must be a single value or have the same length as `input`")
@@ -61,6 +54,7 @@ biweight_num <- function(grid, input, value, radius, normalize = TRUE)
     stop("'input' must have 2 columns x and y")
   if (nrow(input) != nrow(value))
     stop("'input' and 'value' must have the same number of rows")
-
-  Cbiweight(grid, input, value, radius, normalize)
+  ret = Cbiweight(grid, input, value, radius, normalize)
+  colnames(ret) <- colnames(value)
+  ret
 }

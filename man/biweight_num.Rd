@@ -4,12 +4,12 @@
 \alias{biweight_num}
 \title{Biweight raw function}
 \usage{
-biweight_num(grid, input, value, radius, normalize = TRUE)
+biweight_num(input, grid, value, radius, normalize = TRUE)
 }
 \arguments{
-\item{grid}{2 cols x,y numeric matrix of grid coordinates}
-
 \item{input}{2 cols x,y numeric matrix of value coordinates}
+
+\item{grid}{2 cols x,y numeric matrix of grid coordinates}
 
 \item{value}{matrix of values}
 

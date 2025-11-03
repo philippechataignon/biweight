@@ -4,7 +4,7 @@
 \alias{biweight}
 \title{Biweight function}
 \usage{
-biweight(value, grid, radius = NULL, normalize = TRUE, var = NULL, id = NULL)
+biweight(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 }
 \arguments{
 \item{value}{sf table of input values with a geometry column 'point'}
