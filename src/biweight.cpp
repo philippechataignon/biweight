@@ -6,31 +6,25 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 NumericMatrix
 Cbiweight(
-  NumericVector grid_x,
-  NumericVector grid_y,
-  NumericVector input_x,
-  NumericVector input_y,
-  NumericMatrix input_val,
+  NumericMatrix grid,
+  NumericMatrix input,
+  NumericMatrix value,
   NumericVector radius,
   bool normalize)
 {
-  int nb_input_pts = input_x.size();
-  int nb_grid_pts = grid_x.size();
-  int nb_var = input_val.ncol();
   bool constant_radius = radius.size() == 1;
-
-  NumericMatrix grid_val(nb_grid_pts, nb_var);
+  NumericMatrix grid_val(grid.nrow(), value.ncol());
 
   #pragma omp parallel for
-  for (int i = 0; i < nb_input_pts; ++i) {
+  for (int i = 0; i < input.nrow(); ++i) {
     double sumpond = 0;
     double t_radius = constant_radius ? radius[0] : radius[i];
     std::vector< std::tuple<int, double> > ponds;
     ponds.reserve(1024);
 
-    for (int j = 0; j < nb_grid_pts; ++j) {
-      double x = input_x[i] - grid_x[j];
-      double y = input_y[i] - grid_y[j];
+    for (int j = 0; j < grid.nrow(); ++j) {
+      double x = input(i, 0) - grid(j, 0);
+      double y = input(i, 1) - grid(j, 1);
 
       if (x > t_radius)
         continue;
@@ -52,18 +46,18 @@ Cbiweight(
           ponds.push_back(std::make_tuple(j, pond));
           sumpond += pond;
         } else {
-          for (int k = 0; k < nb_var; ++k) {
+          for (int k = 0; k < value.ncol(); ++k) {
             #pragma omp atomic update
-            grid_val(j, k) += pond * input_val(i, k);
+            grid_val(j, k) += pond * value(i, k);
           }
         }
       }
     }
     if (normalize && sumpond > 0) {
       for (auto [ j, pond ] : ponds) {
-        for (int k = 0; k < nb_var; ++k) {
+        for (int k = 0; k < value.ncol(); ++k) {
           #pragma omp atomic update
-          grid_val(j, k) += pond * input_val(i, k) / sumpond;
+          grid_val(j, k) += pond * value(i, k) / sumpond;
         }
       }
     }

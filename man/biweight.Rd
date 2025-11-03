@@ -4,28 +4,22 @@
 \alias{biweight}
 \title{Biweight function}
 \usage{
-biweight(
-  value,
-  grid,
-  radius,
-  normalize = TRUE,
-  output_grid_geometry = FALSE,
-  var = NULL,
-  id = NULL
-)
+biweight(value, grid, radius = NULL, normalize = TRUE, var = NULL, id = NULL)
 }
 \arguments{
-\item{value}{: sf values + points}
+\item{value}{sf table of input values with a geometry column 'point'}
 
-\item{grid}{: sf points}
+\item{grid}{sf table of grid points}
 
-\item{radius}{: numeric vector of radius with length 1 or same as x and y}
+\item{radius}{if character, name of the radius column in value
+of row in value else numeric constant}
 
-\item{normalize}{: if TRUE, ensure sum of pond = 1 else no correction}
+\item{normalize}{if TRUE, ensure sum of pond = 1 else no correction}
 
-\item{output_grid_geometry}{: is `geometry` present in return value ?}
+\item{var}{names of 'value' variables in grid, by default all numeric
+except 'id' variables}
 
-\item{id}{: names of id variable in grid}
+\item{id}{excluded variables from 'var'}
 }
 \description{
 Biweight function

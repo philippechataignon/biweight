@@ -4,30 +4,18 @@
 \alias{biweight_num}
 \title{Biweight raw function}
 \usage{
-biweight_num(
-  grid.x,
-  grid.y,
-  value.x,
-  value.y,
-  value.matrix,
-  radius,
-  normalize = TRUE
-)
+biweight_num(grid, input, value, radius, normalize = TRUE)
 }
 \arguments{
-\item{grid.x}{= numeric vector of x grid coordinates}
+\item{grid}{2 cols x,y numeric matrix of grid coordinates}
 
-\item{grid.y}{= numeric vector of y grid coordinates}
+\item{input}{2 cols x,y numeric matrix of value coordinates}
 
-\item{value.x}{= numeric vector of x value coordinates}
+\item{value}{matrix of values}
 
-\item{value.y}{= numeric vector of y value coordinates}
+\item{radius}{numeric vector of radius (length 1 or same as x and y)}
 
-\item{value.matrix}{= matrix of values}
-
-\item{radius}{: numeric vector of radius (legth 1 or same as x and y)}
-
-\item{normalize}{: if TRUE, ensure sum of pond = 1 else no correction}
+\item{normalize}{if TRUE, ensure sum of pond = 1 else no correction}
 }
 \description{
 Biweight raw function
