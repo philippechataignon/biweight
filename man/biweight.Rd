@@ -11,15 +11,13 @@ biweight(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 
 \item{grid}{sf table of grid points}
 
-\item{radius}{if character, name of the radius column in value
-of row in value else numeric constant}
+\item{radius}{If character, name of the radius column in value else numeric constant}
 
-\item{normalize}{if TRUE, ensure sum of pond = 1 else no correction}
+\item{normalize}{If TRUE, the defaut, ensure sum of pond = 1 else no correction}
 
-\item{var}{names of 'value' variables in grid, by default all numeric
-except 'id' variables}
+\item{var}{Names of 'value' variables in grid, by default all numeric variables}
 
-\item{id}{excluded variables from 'var'}
+\item{id}{Excluded variables from 'var'}
 }
 \description{
 Biweight function

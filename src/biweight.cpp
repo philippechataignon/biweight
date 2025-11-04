@@ -6,8 +6,8 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 NumericMatrix
 Cbiweight(
-  NumericMatrix grid,
   NumericMatrix input,
+  NumericMatrix grid,
   NumericMatrix value,
   NumericVector radius,
   bool normalize)

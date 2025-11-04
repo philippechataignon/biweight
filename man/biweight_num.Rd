@@ -11,11 +11,11 @@ biweight_num(input, grid, value, radius, normalize = TRUE)
 
 \item{grid}{2 cols x,y numeric matrix of grid coordinates}
 
-\item{value}{matrix of values}
+\item{value}{Matrix of values}
 
-\item{radius}{numeric vector of radius (length 1 or same as x and y)}
+\item{radius}{Numeric vector of radius (length 1 or same as x and y)}
 
-\item{normalize}{if TRUE, ensure sum of pond = 1 else no correction}
+\item{normalize}{If TRUE, ensure sum of pond = 1 else no correction}
 }
 \description{
 Biweight raw function

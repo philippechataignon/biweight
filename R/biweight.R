@@ -2,12 +2,10 @@
 #'
 #' @param value     sf table of input values with a geometry column 'point'
 #' @param grid      sf table of grid points
-#' @param radius    if character, name of the radius column in value
-#' of row in value else numeric constant
-#' @param normalize if TRUE, ensure sum of pond = 1 else no correction
-#' @param var       names of 'value' variables in grid, by default all numeric
-#' except 'id' variables
-#' @param id        excluded variables from 'var'
+#' @param radius    If character, name of the radius column in value else numeric constant
+#' @param normalize If TRUE, the defaut, ensure sum of pond = 1 else no correction
+#' @param var       Names of 'value' variables in grid, by default all numeric variables
+#' @param id        Excluded variables from 'var'
 #' @export
 biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 {
@@ -19,17 +17,16 @@ biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL)
     var = names(value)[sapply(value, is.numeric)]
   }
   if (is.character(radius)) {
-    p_radius = value$radius
     # remove 'radius' var from value vars
     var = var[!var == radius]
-  } else {
-    p_radius = radius
+    radius = value$radius
   }
+
   biw = biweight_num(
     sf::st_coordinates(value),
     sf::st_coordinates(grid),
     as.matrix(sf::st_drop_geometry(value[, var])),
-    radius = p_radius,
+    radius = radius,
     normalize = normalize
   )
   ret = cbind(grid, biw)
@@ -40,9 +37,9 @@ biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 #'
 #' @param input     2 cols x,y numeric matrix of value coordinates
 #' @param grid      2 cols x,y numeric matrix of grid coordinates
-#' @param value     matrix of values
-#' @param radius    numeric vector of radius (length 1 or same as x and y)
-#' @param normalize if TRUE, ensure sum of pond = 1 else no correction
+#' @param value     Matrix of values
+#' @param radius    Numeric vector of radius (length 1 or same as x and y)
+#' @param normalize If TRUE, ensure sum of pond = 1 else no correction
 #' @export
 biweight_num <- function(input, grid, value, radius, normalize = TRUE)
 {
@@ -54,7 +51,7 @@ biweight_num <- function(input, grid, value, radius, normalize = TRUE)
     stop("'input' must have 2 columns x and y")
   if (nrow(input) != nrow(value))
     stop("'input' and 'value' must have the same number of rows")
-  ret = Cbiweight(grid, input, value, radius, normalize)
+  ret = Cbiweight(input, grid, value, radius, normalize)
   colnames(ret) <- colnames(value)
   ret
 }

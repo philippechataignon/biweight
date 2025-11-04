@@ -11,17 +11,17 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // Cbiweight
-NumericMatrix Cbiweight(NumericMatrix grid, NumericMatrix input, NumericMatrix value, NumericVector radius, bool normalize);
-RcppExport SEXP _biweight_Cbiweight(SEXP gridSEXP, SEXP inputSEXP, SEXP valueSEXP, SEXP radiusSEXP, SEXP normalizeSEXP) {
+NumericMatrix Cbiweight(NumericMatrix input, NumericMatrix grid, NumericMatrix value, NumericVector radius, bool normalize);
+RcppExport SEXP _biweight_Cbiweight(SEXP inputSEXP, SEXP gridSEXP, SEXP valueSEXP, SEXP radiusSEXP, SEXP normalizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type grid(gridSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type grid(gridSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type value(valueSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type radius(radiusSEXP);
     Rcpp::traits::input_parameter< bool >::type normalize(normalizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(Cbiweight(grid, input, value, radius, normalize));
+    rcpp_result_gen = Rcpp::wrap(Cbiweight(input, grid, value, radius, normalize));
     return rcpp_result_gen;
 END_RCPP
 }
