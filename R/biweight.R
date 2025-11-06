@@ -5,11 +5,10 @@
 #' @param radius    If character, name of the radius column in value else numeric constant
 #' @param normalize If TRUE, the defaut, ensure sum of pond = 1 else no correction
 #' @param var       Names of 'value' variables in grid, by default all numeric variables
-#' @param id        Excluded variables from 'var'
 #' @export
 biweight <- function(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 {
-  stopifnot(is(value, "sf"), is(grid, "sf"))
+  stopifnot(inherits(value, "sf"), inherits(grid, "sf"))
   stopifnot(is.character(radius) || is.numeric(radius))
 
   # if var is not specfified then var = all numeric value

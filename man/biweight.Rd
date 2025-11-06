@@ -16,8 +16,6 @@ biweight(value, grid, radius = NULL, normalize = TRUE, var = NULL)
 \item{normalize}{If TRUE, the defaut, ensure sum of pond = 1 else no correction}
 
 \item{var}{Names of 'value' variables in grid, by default all numeric variables}
-
-\item{id}{Excluded variables from 'var'}
 }
 \description{
 Biweight function

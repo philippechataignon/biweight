@@ -1,18 +1,8 @@
-  library(data.table)
-
 test_that("biweight_num",
 {
-  grid = fread("
-  id;x;y
-  a;0;0
-  a;0;1
-  a;1;1
-  a;1;0
-  ")
-
   biw0 = biweight_num(
     matrix(c(.5, .5), ncol=2),
-    matrix(c(grid$x, grid$y), ncol=2),
+    matrix(c(numgrid$x, numgrid$y), ncol=2),
     value = as.matrix(100),
     radius = 2,
     normalize = T
@@ -21,7 +11,7 @@ test_that("biweight_num",
 
   biw1 = biweight_num(
     matrix(c(.5, .5), ncol=2),
-    matrix(c(grid$x, grid$y), ncol=2),
+    matrix(c(numgrid$x, numgrid$y), ncol=2),
     value = as.matrix(100),
     radius = 2,
     normalize = F
@@ -30,7 +20,7 @@ test_that("biweight_num",
 
   biw2 = biweight_num(
     matrix(c(.5, .5, .5, .5), ncol=2),
-    matrix(c(grid$x, grid$y), ncol=2),
+    matrix(c(numgrid$x, numgrid$y), ncol=2),
     value = matrix(c(100, 100), ncol = 1),
     radius = c(2,1),
     normalize = T

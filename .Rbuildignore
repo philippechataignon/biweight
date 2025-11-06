@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.jj$
+^LICENSE\.md$
+^compile_pkg.R$
