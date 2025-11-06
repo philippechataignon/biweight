@@ -18,3 +18,4 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
 LazyData: true
+SystemRequirements: C++17

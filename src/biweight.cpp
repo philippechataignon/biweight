@@ -4,6 +4,7 @@
 #endif
 using namespace Rcpp;
 
+// [[Rcpp::plugins("cpp17")]]
 // [[Rcpp::plugins(openmp)]]
 // [[Rcpp::export]]
 NumericMatrix
