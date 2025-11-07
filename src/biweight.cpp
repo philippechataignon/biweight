@@ -18,7 +18,13 @@ Cbiweight(
   bool constant_radius = radius.size() == 1;
   NumericMatrix grid_val(grid.nrow(), value.ncol());
 
-  #pragma omp parallel for
+  #ifdef _OPENMP
+  int nth = omp_get_num_procs() / 2;
+  if (nth < 4) {
+    nth = 4;
+  }
+  #pragma omp parallel for num_threads(nth)
+  #endif
   for (int i = 0; i < input.nrow(); ++i) {
     double sumpond = 0;
     double t_radius = constant_radius ? radius[0] : radius[i];
@@ -50,7 +56,9 @@ Cbiweight(
           sumpond += pond;
         } else {
           for (int k = 0; k < value.ncol(); ++k) {
+            #ifdef _OPENMP
             #pragma omp atomic update
+            #endif
             grid_val(j, k) += pond * value(i, k);
           }
         }
@@ -59,7 +67,9 @@ Cbiweight(
     if (normalize && sumpond > 0) {
       for (auto [ j, pond ] : ponds) {
         for (int k = 0; k < value.ncol(); ++k) {
+          #ifdef _OPENMP
           #pragma omp atomic update
+          #endif
           grid_val(j, k) += pond * value(i, k) / sumpond;
         }
       }
